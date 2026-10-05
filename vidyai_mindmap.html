@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VidyAI — Architecture Mind Map</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0f1117;
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 12px 48px;
+    min-height: 100vh;
+  }
+  h1 { color: #f0f6fc; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .sub { color: #8b949e; font-size: 12px; margin-bottom: 36px; }
+
+  .map {
+    position: relative;
+    width: 940px;
+    height: 920px;
+  }
+
+  svg.connectors {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 1;
+  }
+
+  .center {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #3b82d4, #7c5cd8);
+    color: #fff;
+    border-radius: 16px;
+    padding: 16px 24px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.3;
+    z-index: 10;
+    box-shadow: 0 0 0 3px rgba(124,92,216,.45), 0 8px 40px rgba(0,0,0,.6);
+    min-width: 120px;
+  }
+  .center small {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    opacity: .75;
+    margin-top: 3px;
+  }
+
+  .branch { position: absolute; z-index: 5; }
+
+  .branch-head {
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .leaves { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+  .leaf {
+    border-radius: 5px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: #e6edf3;
+    border-left: 3px solid;
+    background: #161b22;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+
+  /* Blue — Client */
+  .t1 .branch-head { background:#1d3a6b; color:#79c0ff; border:1px solid #2f5a9f; }
+  .t1 .leaf        { border-color:#3b82d4; }
+  /* Green — Flask */
+  .t2 .branch-head { background:#1a3a28; color:#56d364; border:1px solid #2d6a45; }
+  .t2 .leaf        { border-color:#3fb950; }
+  /* Purple — AI */
+  .t3 .branch-head { background:#2d1f4e; color:#d2a8ff; border:1px solid #5a3d8a; }
+  .t3 .leaf        { border-color:#7c5cd8; }
+  /* Orange — DB */
+  .t4 .branch-head { background:#3a1f0a; color:#ffa657; border:1px solid #7a3f18; }
+  .t4 .leaf        { border-color:#d18616; }
+  /* Teal — API */
+  .t5 .branch-head { background:#0e2d30; color:#39d0d8; border:1px solid #1a5a60; }
+  .t5 .leaf        { border-color:#1f8b92; }
+  /* Pink — Pages */
+  .t6 .branch-head { background:#3a1a2e; color:#f778ba; border:1px solid #7a2a5a; }
+  .t6 .leaf        { border-color:#db61a2; }
+  /* Sky — External */
+  .t7 .branch-head { background:#0c2a3a; color:#79c0ff; border:1px solid #1a5070; }
+  .t7 .leaf        { border-color:#1f7aaa; }
+  /* Gray — Files */
+  .t8 .branch-head { background:#1e222a; color:#c9d1d9; border:1px solid #3a4050; }
+  .t8 .leaf        { border-color:#555b68; }
+
+  .footer {
+    margin-top: 28px;
+    font-size: 11px;
+    color: #484f58;
+    border-top: 1px solid #21262d;
+    padding-top: 10px;
+    text-align: center;
+    width: 940px;
+  }
+</style>
+</head>
+<body>
+
+<h1>VidyAI — Architecture Mind Map</h1>
+<p class="sub">AI Education Platform · Flask · Groq LLM · SQLite · Gujarat Schools</p>
+
+<div class="map" id="map">
+  <svg class="connectors" id="svg"></svg>
+
+  <!-- CENTER -->
+  <div class="center" id="center">
+    VidyAI
+    <small>Flask + Groq + SQLite</small>
+  </div>
+
+  <!-- 1: Client — top-left -->
+  <div class="branch t1" id="b1" style="left:10px; top:20px; width:162px;">
+    <div class="branch-head">🖥 Client Layer</div>
+    <div class="leaves">
+      <div class="leaf">Jinja2 Templates</div>
+      <div class="leaf">base.html + _sidebar</div>
+      <div class="leaf">chat.js (SSE reader)</div>
+      <div class="leaf">markdown.js</div>
+      <div class="leaf">utils.js</div>
+      <div class="leaf">main.css</div>
+    </div>
+  </div>
+
+  <!-- 2: Flask — top-center -->
+  <div class="branch t2" id="b2" style="left:350px; top:14px; width:162px;">
+    <div class="branch-head">⚙️ Flask Server</div>
+    <div class="leaves">
+      <div class="leaf">app.py (660 lines)</div>
+      <div class="leaf">login_required</div>
+      <div class="leaf">teacher_required</div>
+      <div class="leaf">Flask-CORS</div>
+      <div class="leaf">Flask Sessions</div>
+      <div class="leaf">stream_with_context</div>
+    </div>
+  </div>
+
+  <!-- 3: AI Engine — top-right -->
+  <div class="branch t3" id="b3" style="right:10px; top:20px; width:170px;">
+    <div class="branch-head">🤖 AI Engine</div>
+    <div class="leaves">
+      <div class="leaf">ai_engine.py</div>
+      <div class="leaf">mode: general</div>
+      <div class="leaf">mode: personalized</div>
+      <div class="leaf">mode: lesson_planner</div>
+      <div class="leaf">mode: assessment</div>
+      <div class="leaf">mode: analytics</div>
+      <div class="leaf">mode: teacher</div>
+      <div class="leaf">chat_stream() → SSE</div>
+      <div class="leaf">chat_sync() → block</div>
+      <div class="leaf">20-msg context window</div>
+    </div>
+  </div>
+
+  <!-- 4: SQLite DB — right-middle -->
+  <div class="branch t4" id="b4" style="right:10px; top:400px; width:170px;">
+    <div class="branch-head">🗄 SQLite DB</div>
+    <div class="leaves">
+      <div class="leaf">users</div>
+      <div class="leaf">conversations</div>
+      <div class="leaf">messages</div>
+      <div class="leaf">subjects + topics</div>
+      <div class="leaf">assessments</div>
+      <div class="leaf">assessment_attempts</div>
+      <div class="leaf">learning_progress</div>
+      <div class="leaf">lesson_plans</div>
+      <div class="leaf">resources</div>
+    </div>
+  </div>
+
+  <!-- 5: REST API — bottom-right -->
+  <div class="branch t5" id="b5" style="right:10px; top:730px; width:170px;">
+    <div class="branch-head">🔌 REST API (21)</div>
+    <div class="leaves">
+      <div class="leaf">POST /api/auth/login</div>
+      <div class="leaf">POST /api/chat (SSE)</div>
+      <div class="leaf">GET/POST /api/conversations</div>
+      <div class="leaf">GET/POST /api/progress</div>
+      <div class="leaf">POST /api/assessments/generate</div>
+      <div class="leaf">POST /api/lesson-plans/generate</div>
+      <div class="leaf">GET /api/resources</div>
+      <div class="leaf">GET /api/analytics/*</div>
+      <div class="leaf">GET /api/recommendations</div>
+    </div>
+  </div>
+
+  <!-- 6: Pages — bottom-center -->
+  <div class="branch t6" id="b6" style="left:330px; top:790px; width:162px;">
+    <div class="branch-head">📄 Pages (8)</div>
+    <div class="leaves">
+      <div class="leaf">/login · /register</div>
+      <div class="leaf">/student dashboard</div>
+      <div class="leaf">/teacher dashboard</div>
+      <div class="leaf">/chat</div>
+      <div class="leaf">/assessments</div>
+      <div class="leaf">/lesson-plans</div>
+      <div class="leaf">/resources</div>
+    </div>
+  </div>
+
+  <!-- 7: External — bottom-left -->
+  <div class="branch t7" id="b7" style="left:10px; top:730px; width:162px;">
+    <div class="branch-head">☁️ Groq External</div>
+    <div class="leaves">
+      <div class="leaf">Groq Cloud API</div>
+      <div class="leaf">llama-3.3-70b-versatile</div>
+      <div class="leaf">GROQ_API_KEY (.env)</div>
+      <div class="leaf">max_tokens: 2048–3000</div>
+      <div class="leaf">temperature: 0.7</div>
+      <div class="leaf">En / Gujarati / Hindi</div>
+    </div>
+  </div>
+
+  <!-- 8: Files — left-middle -->
+  <div class="branch t8" id="b8" style="left:10px; top:380px; width:162px;">
+    <div class="branch-head">📁 File Structure</div>
+    <div class="leaves">
+      <div class="leaf">app.py</div>
+      <div class="leaf">ai_engine.py</div>
+      <div class="leaf">database.py</div>
+      <div class="leaf">seed.py</div>
+      <div class="leaf">.env / .env.example</div>
+      <div class="leaf">requirements.txt</div>
+      <div class="leaf">start.bat / start.sh</div>
+      <div class="leaf">vidyai.db</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Made with IBM Bob</div>
+
+<script>
+  function mid(el) {
+    const r  = el.getBoundingClientRect();
+    const mr = document.getElementById('map').getBoundingClientRect();
+    return { x: r.left - mr.left + r.width / 2, y: r.top - mr.top + r.height / 2 };
+  }
+
+  function headAnchor(bid) {
+    const b  = document.getElementById(bid);
+    const h  = b.querySelector('.branch-head');
+    const mr = document.getElementById('map').getBoundingClientRect();
+    const r  = h.getBoundingClientRect();
+    return {
+      cx:     r.left - mr.left + r.width / 2,
+      cy:     r.top  - mr.top  + r.height / 2,
+      left:   r.left   - mr.left,
+      right:  r.right  - mr.left,
+      top:    r.top    - mr.top,
+      bottom: r.bottom - mr.top,
+    };
+  }
+
+  function draw() {
+    const svg = document.getElementById('svg');
+    svg.innerHTML = '';
+    const c = mid(document.getElementById('center'));
+
+    const ids    = ['b1','b2','b3','b4','b5','b6','b7','b8'];
+    const colors = ['#3b82d4','#3fb950','#7c5cd8','#d18616','#1f8b92','#db61a2','#1f7aaa','#888fa8'];
+
+    ids.forEach((bid, i) => {
+      const h  = headAnchor(bid);
+      let ax = h.cx, ay = h.cy;
+
+      // Pick closest edge toward center
+      const dx = c.x - h.cx, dy = c.y - h.cy;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        ax = dx > 0 ? h.right : h.left;
+        ay = h.cy;
+      } else {
+        ax = h.cx;
+        ay = dy > 0 ? h.bottom : h.top;
+      }
+
+      const cpx1 = ax + (c.x - ax) * 0.45;
+      const cpy1 = ay;
+      const cpx2 = c.x - (c.x - ax) * 0.45;
+      const cpy2 = c.y;
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M${ax},${ay} C${cpx1},${cpy1} ${cpx2},${cpy2} ${c.x},${c.y}`);
+      path.setAttribute('stroke', colors[i]);
+      path.setAttribute('stroke-width', '2');
+      path.setAttribute('fill', 'none');
+      path.setAttribute('opacity', '0.5');
+      svg.appendChild(path);
+
+      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('cx', ax); dot.setAttribute('cy', ay);
+      dot.setAttribute('r', '3.5');
+      dot.setAttribute('fill', colors[i]);
+      svg.appendChild(dot);
+    });
+  }
+
+  setTimeout(draw, 80);
+  window.addEventListener('resize', draw);
+</script>
+
+</body>
+</html>
